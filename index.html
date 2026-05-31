@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Jean Franco — Diseñador & Desarrollador Frontend</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -57,7 +58,7 @@
   }
   .nav-links a:hover, .nav-links a.active { color: var(--accent); }
 
-  /* HERO */
+  /* HERO & MATRIX CANVAS */
   #hero {
     min-height: 100vh;
     display: flex; flex-direction: column; justify-content: center;
@@ -66,14 +67,28 @@
     overflow: hidden;
     margin-top: 60px;
   }
-  .hero-bg {
-    position: absolute; inset: 0; z-index: 0;
+  #matrix-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    opacity: 0.25; /* Sutil para que no tape el texto principal */
+    pointer-events: none;
   }
   .hero-bg-overlay {
-    position: absolute; inset: 0;
+    position: absolute; inset: 0; z-index: 1;
     background:
-      radial-gradient(ellipse 55% 70% at 50% 50%, rgba(10,10,15,0.55) 0%, rgba(10,10,15,0.1) 100%),
-      radial-gradient(ellipse 40% 50% at 80% 50%, rgba(200,169,110,0.08) 0%, transparent 70%);
+      radial-gradient(ellipse 60% 80% at 50% 50%, rgba(10,10,15,0.4) 0%, rgba(10,10,15,0.9) 100%),
+      radial-gradient(ellipse 40% 50% at 80% 50%, rgba(200,169,110,0.05) 0%, transparent 73%);
+  }
+  .hero-content {
+    position: relative; 
+    z-index: 2; 
+    max-width: 1100px; 
+    margin: 0 auto; 
+    width: 100%;
   }
   .hero-tag {
     font-family: 'JetBrains Mono', monospace;
@@ -142,7 +157,7 @@
   }
 
   .hero-scroll {
-    position: absolute; bottom: 3rem; left: 4rem;
+    position: absolute; bottom: 3rem; left: 4rem; z-index: 2;
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.72rem;
     color: var(--muted);
@@ -181,7 +196,6 @@
     background: var(--dark2);
     border-top: 1px solid var(--border);
   }
-
   .sobre-intro {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -219,7 +233,7 @@
     transition: transform 0.4s;
   }
   .identity-card:hover::before { transform: scaleY(1); }
-  .identity-icon { font-size: 1.8rem; margin-bottom: 0.8rem; }
+  .identity-icon { font-size: 1.8rem; color: var(--accent); margin-bottom: 0.8rem; }
   .identity-title {
     font-family: 'Bebas Neue', sans-serif;
     font-size: 1.2rem;
@@ -364,7 +378,7 @@
     transform: translateY(-4px);
     background: rgba(200,169,110,0.03);
   }
-  .skill-cat-icon { font-size: 2rem; margin-bottom: 1rem; }
+  .skill-cat-icon { font-size: 2rem; color: var(--accent); margin-bottom: 1rem; }
   .skill-cat-title {
     font-family: 'Bebas Neue', sans-serif;
     font-size: 1.4rem;
@@ -386,6 +400,48 @@
   .skill-cat:hover .tag { 
     border-color: rgba(200,169,110,0.3); 
     color: var(--text); 
+  }
+
+  /* NUEVA SECCIÓN PROFESIONAL: WORKFLOW (PROCESO) */
+  #proceso {
+    background: var(--dark3);
+    border-top: 1px solid var(--border);
+  }
+  .proceso-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  .proceso-step {
+    padding: 2.5rem 2rem;
+    border-left: 1px dashed var(--border);
+    position: relative;
+  }
+  .proceso-step::before {
+    content: '';
+    position: absolute; top: 2.5rem; left: -4px;
+    width: 7px; height: 7px; background: var(--accent);
+    border-radius: 50%;
+  }
+  .proceso-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85rem;
+    color: var(--accent);
+    margin-bottom: 1rem;
+  }
+  .proceso-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.5rem;
+    color: var(--white);
+    margin-bottom: 0.75rem;
+    letter-spacing: 0.05em;
+  }
+  .proceso-desc {
+    font-size: 0.9rem;
+    color: var(--muted);
+    line-height: 1.7;
   }
 
   /* CONTACTO */
@@ -483,8 +539,10 @@
     .nav-links { display: none; }
     section, #hero { padding: 4rem 1.5rem; }
     #hero { margin-top: 60px; }
-    .sobre-intro, .skills-grid, .projects-grid, .contact-links { grid-template-columns: 1fr; }
+    .sobre-intro, .skills-grid, .projects-grid, .contact-links, .proceso-grid { grid-template-columns: 1fr; }
     .project-card.featured { grid-column: auto; }
+    .proceso-step { border-left: none; border-top: 1px dashed var(--border); padding: 2rem 0; }
+    .proceso-step::before { top: -4px; left: 50%; transform: translateX(-50%); }
     footer { padding: 1.5rem; flex-direction: column; gap: 1rem; text-align: center; }
   }
 </style>
@@ -502,15 +560,16 @@
   </ul>
 </nav>
 
-<!-- HERO -->
+<!-- HERO CON EFECTO MATRIX -->
 <section id="hero">
-  <div class="hero-bg">
-    <div class="hero-bg-overlay"></div>
-  </div>
-  <div style="position:relative; z-index:1; max-width:1100px; margin:0 auto; width:100%;">
-    <p class="hero-tag">// Frontend Developer & Designer</p>
+  <!-- El Lienzo para el código de programación animado -->
+  <canvas id="matrix-canvas"></canvas>
+  <div class="hero-bg-overlay"></div>
+  
+  <div class="hero-content">
+    <p class="hero-tag">// Frontend Developer & Programmer</p>
     <h1 class="hero-name">Jean<br><span>Franco</span></h1>
-    <p class="hero-sub">Creo experiencias digitales elegantes y funcionales. Especializado en interfaces modernas, desde diseño conceptual hasta implementación pixel-perfect.</p>
+    <p class="hero-sub">Desarrollo soluciones digitales eficientes, robustas y con alto rendimiento técnico. Especializado en la creación de interfaces modernas mediante lógica limpia y optimización de código de extremo a extremo.</p>
     <div class="hero-cta">
       <a href="#proyectos" class="btn btn-primary">Ver Proyectos</a>
       <a href="#contacto" class="btn btn-outline">Contactar</a>
@@ -519,7 +578,7 @@
   <p class="hero-scroll">Scroll para explorar</p>
 </section>
 
-<!-- SOBRE MÍ -->
+<!-- SOBRE MÍ (TEXTOS MEJORADOS) -->
 <section id="sobre">
   <div style="max-width:1100px; margin:0 auto;">
     <div class="line-deco"></div>
@@ -528,28 +587,28 @@
     <div class="sobre-intro">
       <div class="sobre-text">
         <h2 class="section-title">Quién soy</h2>
-        <p>Soy <strong>Jean Franco</strong>, un desarrollador frontend apasionado por crear interfaces que no solo funcionan, sino que también se ven bien. Me especializo en <strong>HTML, CSS y JavaScript</strong>, transformando diseños en experiencias web interactivas.</p>
-        <p>Creo que <strong>la calidad está en los detalles</strong>. Cada animación, cada interacción, cada píxel tiene un propósito. Mi objetivo es crear sitios que sean bellos, rápidos y funcionales.</p>
-        <p>Trabajo con pasión en cada proyecto, desde landing pages minimalistas hasta aplicaciones web complejas. Si tu visión necesita código elegante y diseño pulido, vamos a trabajar bien juntos.</p>
+        <p>Soy <strong>Jean Franco</strong>, un desarrollador enfocado en construir experiencias web interactivas donde la lógica de programación y el diseño eficiente convergen. Mi especialización en el stack Frontend (**HTML, CSS y JavaScript**) se complementa con una sólida formación en lógica orientada a objetos, lo que me permite estructurar código limpio, escalable y fácil de mantener.</p>
+        <p>En mi día a día, adopto tecnologías de **Inteligencia Artificial** como un pilar fundamental para acelerar el desarrollo, refactorizar código y asegurar la resolución eficiente de bugs complejos, optimizando los tiempos de entrega sin comprometer la calidad.</p>
+        <p>Me apasiona la **arquitectura del software y la optimización técnica**. No me conformo con que una interfaz se vea bien; me aseguro de que el consumo de recursos sea mínimo, garantizando que cada aplicación sea ligera, rápida y perfectamente funcional en cualquier tipo de hardware o dispositivo.</p>
         <br>
         <a href="#contacto" class="btn btn-primary">Trabajemos juntos</a>
       </div>
 
       <div class="sobre-identity">
         <div class="identity-card scroll-reveal">
-          <div class="identity-icon">🎨</div>
-          <div class="identity-title">Diseño Visual</div>
-          <div class="identity-desc">Creo interfaces limpias y modernas. Cada componente tiene estilo, cada paleta cuenta una historia. El diseño no es un adorno, es la base.</div>
+          <div class="identity-icon"><i class="ri-code-box-line"></i></div>
+          <div class="identity-title">Lógica & Estructura</div>
+          <div class="identity-desc">Voy más allá de la maquetación visual. Aplico fundamentos de programación sólidos para crear componentes interactivos complejos y un manejo de datos eficiente.</div>
         </div>
         <div class="identity-card scroll-reveal">
-          <div class="identity-icon">⚡</div>
-          <div class="identity-title">Desarrollo Frontend</div>
-          <div class="identity-desc">Construyo sitios web con HTML, CSS y JavaScript. Código limpio, semántico y eficiente. Responsive en todos los dispositivos.</div>
+          <div class="identity-icon"><i class="ri-cpu-line"></i></div>
+          <div class="identity-title">Desarrollo Inteligente</div>
+          <div class="identity-desc">Integro herramientas de IA en mi flujo técnico para auditoría de código, optimización de algoritmos y documentación ágil de proyectos.</div>
         </div>
         <div class="identity-card scroll-reveal">
-          <div class="identity-icon">🔧</div>
-          <div class="identity-title">Soluciones Técnicas</div>
-          <div class="identity-desc">Consumo APIs, integro datos reales, optimizo rendimiento. No solo bonito, sino también funcional y rápido.</div>
+          <div class="identity-icon"><i class="ri-dashboard-3-line"></i></div>
+          <div class="identity-title">Optimización de Rendimiento</div>
+          <div class="identity-desc">Diseño pensando en la eficiencia. Minimizo la carga de scripts y optimizo el rendimiento técnico para que las apps vuelen en cualquier hardware.</div>
         </div>
       </div>
     </div>
@@ -567,7 +626,7 @@
       <!-- Mi Primer Proyecto (Destacado) -->
       <div class="project-card featured scroll-reveal">
         <div class="project-thumb">
-          🏗️
+          <i class="ri-folder-open-line" style="color: var(--accent);"></i>
           <div class="project-overlay"></div>
         </div>
         <div class="project-body">
@@ -590,7 +649,7 @@
       <!-- SKYE Weather -->
       <div class="project-card scroll-reveal">
         <div class="project-thumb">
-          🌤️
+          <i class="ri-cloud-windy-line" style="color: var(--accent);"></i>
           <div class="project-overlay"></div>
         </div>
         <div class="project-body">
@@ -614,7 +673,7 @@
       <!-- YouTube Music Clone -->
       <div class="project-card scroll-reveal">
         <div class="project-thumb">
-          🎵
+          <i class="ri-music-2-line" style="color: var(--accent);"></i>
           <div class="project-overlay"></div>
         </div>
         <div class="project-body">
@@ -647,7 +706,7 @@
 
     <div class="skills-grid">
       <div class="skill-cat scroll-reveal">
-        <div class="skill-cat-icon">🎨</div>
+        <div class="skill-cat-icon"><i class="ri-html5-line"></i></div>
         <div class="skill-cat-title">Frontend</div>
         <div class="skill-tags">
           <span class="tag">HTML5</span>
@@ -659,7 +718,7 @@
       </div>
 
       <div class="skill-cat scroll-reveal">
-        <div class="skill-cat-icon">⚡</div>
+        <div class="skill-cat-icon"><i class="ri-git-repository-line"></i></div>
         <div class="skill-cat-title">Herramientas</div>
         <div class="skill-tags">
           <span class="tag">Git/GitHub</span>
@@ -671,7 +730,7 @@
       </div>
 
       <div class="skill-cat scroll-reveal">
-        <div class="skill-cat-icon">🔧</div>
+        <div class="skill-cat-icon"><i class="ri-terminal-window-line"></i></div>
         <div class="skill-cat-title">Especialidades</div>
         <div class="skill-tags">
           <span class="tag">APIs REST</span>
@@ -685,28 +744,56 @@
   </div>
 </section>
 
-<!-- CONTACTO -->
+<!-- NUEVA SECCIÓN ADICIONAL: PROCESO PROFESIONAL -->
+<section id="proceso">
+  <div style="max-width:1100px; margin:0 auto; width:100%;">
+    <div class="line-deco"></div>
+    <p class="section-label">04 — Metodología</p>
+    <h2 class="section-title">Cómo Trabajo</h2>
+    
+    <div class="proceso-grid">
+      <div class="proceso-step scroll-reveal">
+        <div class="proceso-num">// 01</div>
+        <h3 class="proceso-title">Estrategia & IA</h3>
+        <p class="proceso-desc">Planifico la arquitectura modular del proyecto y optimizo los tiempos iniciales usando prompts de IA para el modelado de datos y flujos de lógica.</p>
+      </div>
+      <div class="proceso-step scroll-reveal">
+        <div class="proceso-num">// 02</div>
+        <h3 class="proceso-title">Desarrollo Limpio</h3>
+        <p class="proceso-desc">Escribo código semántico, ordenado y bajo estándares modernos en JavaScript. Separación estricta de responsabilidades para un código legible.</p>
+      </div>
+      <div class="proceso-step scroll-reveal">
+        <div class="proceso-num">// 03</div>
+        <h3 class="proceso-title">Auditoría & Ajuste</h3>
+        <p class="proceso-desc">Examino la carga en DevTools y realizo refactorizaciones profundas para asegurar que el peso sea mínimo y funcione fluido en cualquier máquina.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACTO (CORREO AUTOMATIZADO) -->
 <section id="contacto">
   <div style="max-width:1100px; margin:0 auto; width:100%;">
     <div class="line-deco"></div>
-    <p class="section-label">04 — Contacto</p>
+    <p class="section-label">05 — Contacto</p>
     <h2 class="section-title">Hablemos</h2>
 
     <div class="contact-cta">
-      <p>¿Tenés un proyecto en mente? ¿Una idea que necesita código? Contáctame y veamos cómo puedo ayudarte a llevarlo a la realidad.</p>
+      <p>¿Tienes un proyecto en mente o una vacante técnica? Contáctame haciendo clic en cualquiera de mis redes para conectar inmediatamente.</p>
     </div>
 
     <div class="contact-links">
-      <a href="mailto:jeanfranco_ceschin@outlook.com" class="contact-link scroll-reveal">
-        <div class="contact-link-icon">📧</div>
+      <!-- Enlace mailto profesional con Asunto y Cuerpo de mail predefinidos -->
+      <a href="mailto:jeanfranco_ceschin@outlook.com?subject=Propuesta%20o%20Consulta%20desde%20Portafolio&body=Hola%20Jean%20Franco,%20vi%20tu%20portafolio%20y%20me%20gustaría%20hablar%20contigo%20sobre..." class="contact-link scroll-reveal">
+        <div class="contact-link-icon"><i class="ri-mail-send-line"></i></div>
         <div class="contact-link-label">Email</div>
       </a>
       <a href="https://www.linkedin.com/in/jean-franco-ceschin-171751407/" class="contact-link scroll-reveal" target="_blank" rel="noopener noreferrer">
-        <div class="contact-link-icon">💼</div>
+        <div class="contact-link-icon"><i class="ri-linkedin-box-line"></i></div>
         <div class="contact-link-label">LinkedIn</div>
       </a>
       <a href="https://www.instagram.com/jean_ceschin/" class="contact-link scroll-reveal" target="_blank" rel="noopener noreferrer">
-        <div class="contact-link-icon">📸</div>
+        <div class="contact-link-icon"><i class="ri-instagram-line"></i></div>
         <div class="contact-link-label">Instagram</div>
       </a>
     </div>
@@ -720,7 +807,57 @@
 </footer>
 
 <script>
-  // Smooth scroll reveal
+  /* SCRIPT DEL EFECTO MATRIX RESPETANDO TU PALETA DENTRO DEL HERO */
+  const canvas = document.getElementById('matrix-canvas');
+  const ctx = canvas.getContext('2d');
+
+  function resizeCanvas() {
+    const heroSection = document.getElementById('hero');
+    canvas.width = heroSection.offsetWidth;
+    canvas.height = heroSection.offsetHeight;
+  }
+  resizeCanvas();
+  window.addEventListener('resize', resizeCanvas);
+
+  // Palabras clave de desarrollo y tokens binarios
+  const matrixWords = ["int", "String", "void", "if", "else", "for", "while", "java", "null", "true", "false", "0", "1", "[]", "{}", "const", "let", "&&", "||"];
+  
+  const fontSize = 14;
+  const columns = Math.floor(canvas.width / 25); 
+  const yPositions = Array(columns).fill(0);
+
+  function drawMatrix() {
+    // Fondo semi-transparente negro para crear el rastro de la caída
+    ctx.fillStyle = 'rgba(10, 10, 15, 0.1)';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    // Color del código de programación cayendo: Dorados sutiles acordes a tu portafolio
+    ctx.font = "500 " + fontSize + "px 'JetBrains Mono', monospace";
+
+    for (let i = 0; i < yPositions.length; i++) {
+      // Elegimos una palabra o token aleatorio del arreglo
+      const text = matrixWords[Math.floor(Math.random() * matrixWords.length)];
+      const x = i * 28;
+      const y = yPositions[i];
+
+      // Alterna opacidades y tonos dorados/bronces de tu paleta para que se vea premium
+      ctx.fillStyle = Math.random() > 0.85 ? '#e8c88a' : '#c8a96e';
+      
+      ctx.fillText(text, x, y);
+
+      // Si pasa el fondo del hero, reinicia la columna aleatoriamente arriba
+      if (y > canvas.height && Math.random() > 0.975) {
+        yPositions[i] = 0;
+      } else {
+        yPositions[i] += 18; // Velocidad de caída
+      }
+    }
+  }
+  // Ejecuta la animación de Matrix continuamente
+  setInterval(drawMatrix, 45);
+
+
+  /* ANIMACIONES DE SCROLL REVEAL */
   const revealElements = document.querySelectorAll('.scroll-reveal');
   
   const revealOnScroll = () => {
@@ -737,7 +874,7 @@
   window.addEventListener('scroll', revealOnScroll);
   revealOnScroll();
 
-  // Active nav link
+  /* NAVEGACIÓN ACTIVA */
   const navLinks = document.querySelectorAll('.nav-links a');
   const sections = document.querySelectorAll('section');
 
